@@ -1,0 +1,2 @@
+package_name "com.experion.fastlanesampleproject"
+json_key_file "fastlane/SigningConfigs/playstore_service_key.json"

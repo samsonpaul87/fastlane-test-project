@@ -1,0 +1,36 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/android:api-28-alpha
+  environment:
+    JVM_OPTS: -Xmx3200m
+
+jobs:
+  deploy-master:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Install fastlane
+          command: bundle install
+      - run:
+          name: Deploy the app to the alpha track
+          command: bundle exec fastlane deploy
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+workflows:
+  version: 2
+
+  deploy-master:
+    jobs:
+      - deploy-master:
+          filters:
+            branches:
+              only:
+                - /master.*/

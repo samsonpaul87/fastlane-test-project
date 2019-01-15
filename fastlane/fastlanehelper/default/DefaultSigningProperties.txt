@@ -1,0 +1,4 @@
+defaultStorePassword=debug
+defaultKeyPassword=debug
+defaultKeyAlias=debug
+defaultStoreFile=../signing.properties

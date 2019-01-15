@@ -1,0 +1,64 @@
+# Customize this file, documentation can be found here:
+# https://docs.fastlane.tools/actions/
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version("1.46.1")
+
+default_platform(:android)
+
+platform(:android) do
+
+  require_relative "fastlanehelper/configuration/Configurations"
+    require_relative "fastlanehelper/util/SigningUtil"
+    require_relative "fastlanehelper/util/VersionCodeUtil"
+    require_relative "fastlanehelper/util/FileUtil"
+
+
+  before_all do
+    puts "Downloading required data"
+  download_actual_signing_credentials()
+
+  end
+
+  desc("Deploy a new version to the Google Play")
+  lane(:deploy) do
+    version_code = increment_playstore_version_code_by_one('com.experion.fastlanesampleproject')
+
+    update_new_version_code_to_file(version_code)
+
+    gradle(task: "assembleRelease")
+    supply(track: 'alpha')
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+
+      puts "Cleaning up data"
+      restore_default_signing_credentials()
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+
+        puts "Cleaning up data"
+        restore_default_signing_credentials()
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
