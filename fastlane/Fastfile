@@ -29,43 +29,20 @@ platform(:android) do
   end
 
   lane :upload_whats_new do
-
-    upload_to_play_store(
-        track: 'alpha'
-    )
-
+    upload_to_play_store(track: 'alpha')
   end
 
   lane :promote_app do
-
-    upload_to_play_store(
-        track: 'alpha',
-        track_promote_to: 'beta')
+    upload_to_play_store(track: 'alpha',track_promote_to: 'beta')
   end
 
   lane :screenshots do
-
-    gradle(
-        task: 'clean'
-    )
-
-    build_android_app(
-        task: 'assemble',
-        build_type: 'Debug'
-    )
-
-    build_android_app(
-        task: 'assemble',
-        build_type: 'DebugAndroidTest'
-    )
-
+    gradle(task: 'clean')
+    build_android_app(task: 'assemble',build_type: 'Debug')
+    build_android_app(task: 'assemble',build_type: 'DebugAndroidTest')
     capture_android_screenshots
-    upload_to_play_store(
-        skip_upload_apk: true
-    )
-
+    upload_to_play_store(skip_upload_apk: true)
   end
-
 
   desc("Deploy a new version to the Google Play")
   lane :deploy do
