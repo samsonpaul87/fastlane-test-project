@@ -25,7 +25,7 @@ platform(:android) do
 
   before_all do
     puts "Downloading required data"
-    # download_actual_signing_credentials()
+    download_actual_signing_credentials()
   end
 
   lane :upload_whats_new do
@@ -57,7 +57,7 @@ platform(:android) do
   after_all do |lane|
 
     puts "Cleaning up data"
-    # restore_default_signing_credentials()
+    restore_default_signing_credentials()
     # This block is called, only if the executed lane was successful
 
     # slack(
@@ -68,7 +68,7 @@ platform(:android) do
   error do |lane, exception|
 
     puts "Cleaning up data"
-    # restore_default_signing_credentials()
+    restore_default_signing_credentials()
     # slack(
     #   message: exception.message,
     #   success: false
