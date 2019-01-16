@@ -16,6 +16,21 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
+### android upload_whats_new
+```
+fastlane android upload_whats_new
+```
+
+### android promote_app
+```
+fastlane android promote_app
+```
+
+### android screenshots
+```
+fastlane android screenshots
+```
+
 ### android deploy
 ```
 fastlane android deploy
