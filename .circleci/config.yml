@@ -7,7 +7,7 @@ defaults: &defaults
     JVM_OPTS: -Xmx3200m
 
 jobs:
-  deploy-master:
+  job-deploy-master:
     <<: *defaults
     steps:
       - checkout
@@ -27,9 +27,9 @@ jobs:
 workflows:
   version: 2
 
-  deploy-master:
+  workflow-deploy-master:
     jobs:
-      - deploy-master:
+      - job-deploy-master:
           filters:
             branches:
               only:
