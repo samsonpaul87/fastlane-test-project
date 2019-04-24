@@ -23,14 +23,3 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-workflows:
-  version: 2
-
-  workflow-deploy-master:
-    jobs:
-      - job-deploy-master:
-          filters:
-            branches:
-              only:
-                - master
