@@ -7,7 +7,7 @@ defaults: &defaults
     JVM_OPTS: -Xmx3200m
 
 jobs:
-  job-deploy-master:
+  job-deploy-to-alpha:
     <<: *defaults
     steps:
       - checkout
@@ -18,8 +18,36 @@ jobs:
           command: bundle install
       - run:
           name: Deploy the app to the alpha track
-          command: bundle exec fastlane deploy
+          command: bundle exec fastlane deploy_alpha
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+
+  job-deploy-to-beta:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Install fastlane
+          command: bundle install
+      - run:
+          name: Deploy the app to the alpha track
+          command: bundle exec fastlane deploy_beta
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+
+workflows:
+  version: 2
+
+  workflow-deploy-master:
+    jobs:
+      - job-deploy-to-alpha:
+          requires:
+            - job-deploy-to-beta

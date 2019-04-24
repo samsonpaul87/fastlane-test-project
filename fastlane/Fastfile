@@ -45,7 +45,7 @@ platform(:android) do
   end
 
   desc("Deploy a new version to the Google Play")
-  lane :deploy do
+  lane :deploy_alpha do
 
     version_code = increment_playstore_version_code_by_one('com.experion.fastlanesampleproject')
 
@@ -60,6 +60,24 @@ platform(:android) do
     puts "uploading to playstore"
     upload_to_play_store(track: 'alpha')
   end
+
+
+  desc("Deploy a new version to the Google Play")
+    lane :deploy_beta do
+
+      version_code = increment_playstore_version_code_by_one('com.experion.fastlanesampleproject')
+
+      puts "updating new version code to file"
+      update_new_version_code_to_file(version_code)
+
+      gradle(task: "clean")
+
+      puts "generating signed APK"
+      gradle(task: "assembleRelease")
+
+      puts "uploading to playstore"
+      upload_to_play_store(track: 'alpha')
+    end
 
   # You can define as many lanes as you want
 
