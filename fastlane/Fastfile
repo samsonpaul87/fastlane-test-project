@@ -46,12 +46,17 @@ platform(:android) do
 
   desc("Deploy a new version to the Google Play")
   lane :deploy do
-    puts "retrieving version code and incrementing by one"
+
     version_code = increment_playstore_version_code_by_one('com.experion.fastlanesampleproject')
-    puts "updating version code to file"
+
+    puts "updating new version code to file"
     update_new_version_code_to_file(version_code)
+
+    gradle(task: "clean")
+
     puts "generating signed APK"
     gradle(task: "assembleRelease")
+
     puts "uploading to playstore"
     upload_to_play_store(track: 'alpha')
   end

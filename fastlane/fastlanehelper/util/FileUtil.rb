@@ -14,22 +14,12 @@ $text_file_extension = '.txt'
 # following method is used for auto increment version code
 
 def update_new_version_code_to_file(new_version_code)
+  puts "Updating new version code to VersionConfig file"
   path = Dir.glob($path_to_version_config_file).first
-  updated_version_config = ''
   file = File.open(path)
-
-  File.foreach(file).with_index do |line, _line_num|
-    line.gsub!(/[\r\n]+$/, '')
-
-    if line.start_with?($text_playstore_version_code)
-      updated_version_config = $text_playstore_version_code + "=#{new_version_code}\n"
-    else
-      updated_version_config += line
-    end
-
-    # Here we write new version code and version number to migymVersionConfig.properties file
-    File.write(path, updated_version_config)
-  end
+  lines = File.readlines(file)
+  lines[0] = $text_playstore_version_code + "=#{new_version_code}" << $/
+  File.open(file, 'w') {|f| f.write(lines.join)}
 end
 
 
