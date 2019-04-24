@@ -47,5 +47,5 @@ workflows:
   workflow-deploy-master:
     jobs:
       - job-deploy-to-beta
-        requires:
-          - job-deploy-to-alpha
+          requires:
+            - job-deploy-to-alpha
