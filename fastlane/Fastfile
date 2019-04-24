@@ -76,7 +76,7 @@ platform(:android) do
       gradle(task: "assembleRelease")
 
       puts "uploading to playstore"
-      upload_to_play_store(track: 'alpha')
+      upload_to_play_store(track: 'beta')
     end
 
   # You can define as many lanes as you want
