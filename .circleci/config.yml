@@ -23,8 +23,6 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-
   job-deploy-to-beta:
     <<: *defaults
     steps:
@@ -48,6 +46,6 @@ workflows:
 
   workflow-deploy-master:
     jobs:
-      - job-deploy-to-alpha:
-          requires:
-            - job-deploy-to-beta
+      - job-deploy-to-beta
+        requires:
+          - job-deploy-to-alpha
