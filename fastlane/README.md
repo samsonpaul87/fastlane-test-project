@@ -31,9 +31,14 @@ fastlane android promote_app
 fastlane android screenshots
 ```
 
-### android deploy
+### android deploy_alpha
 ```
-fastlane android deploy
+fastlane android deploy_alpha
+```
+Deploy a new version to the Google Play
+### android deploy_beta
+```
+fastlane android deploy_beta
 ```
 Deploy a new version to the Google Play
 
